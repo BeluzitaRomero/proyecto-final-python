@@ -1,0 +1,37 @@
+{% extends 'AppBlog/home.html' %} {% block title %} Users CoderBlog {%endblock%}
+{% block main_content %}
+
+<div class="col-lg-12 col-md-12 container-main">
+    <h2 class="my-5">Busca un usuario por su nombre de usuario</h2>
+    <div class="row align-items-center mb-3">
+      <form
+        class="col-lg-6 col-md-12 mb-3"
+        action="{% url 'find-user' %}"
+        method="GET"
+      >
+        {% csrf_token %}
+        <input
+          type="text"
+          name="username"
+          id="username"
+          placeholder="Ej: Fernando"
+          autocomplete="off"
+        />
+        
+        <input
+          style="border-radius: 3px; border: none; padding: 0.3rem 0.5rem"
+          class="btn-primary"
+          type="submit"
+          value="Buscar"
+        />
+      </form>
+      <div class="col-lg-6 col-md-12 mb-3">
+        <a href="{% url 'user-form' %}" class="btn btn-primary"
+          >+ Nuevo usuario</a
+        >
+      </div>
+  
+    </div>
+  </div>
+
+{%endblock%}

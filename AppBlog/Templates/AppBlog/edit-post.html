@@ -1,0 +1,17 @@
+{% extends 'AppBlog/home.html' %} {% block title %} Posts CoderBlog {%endblock%}
+{% block main_content %}
+<div>
+  {% if my_form %}
+  <form action="" method="POST">
+    {% csrf_token %} {{ my_form.as_p }}
+    <input
+      style="max-height: 3rem"
+      class="btn btn-primary mx-3"
+      type="submit"
+      value="Guardar cambios"
+    />
+  </form>
+  {% endif %}
+</div>
+
+{% endblock %}

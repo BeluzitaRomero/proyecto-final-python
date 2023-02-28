@@ -1,0 +1,26 @@
+{% extends 'AppBlog/home.html' %} {% block title %} Usuario encontrado {%endblock%}
+{% block main_content %}
+    <div class="row col-lg-6 col-md-12 mb-3 container-main">
+      <h2 class="my-5">Busqueda del usuario: {{username}}</h2>
+  
+      {% if users %}
+      <ul class="list-group mb-3">
+        {% for user in users %}
+        <li >
+            <div class="flex-fil mb-2" >
+                <p class="my-auto"><b class="gradient">Username: </b>{{user.username}} <br>
+                    <b class="gradient">Nombre y Apellido: </b> {{user.name}} {{user.apellido}}
+                </p>
+            </div>
+        </li>
+        <br>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <span style="color: red">No se ha encontrado el usuario</span>
+  
+      {% endif %}
+    </div>
+
+
+{%endblock%}

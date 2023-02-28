@@ -1,0 +1,28 @@
+{% extends 'AppBlog/home.html' %} {% block title %} Posts CoderBlog {%endblock%}
+{% block main_content %}
+<div class="container">
+    <div class="row col-lg-6 col-md-12 mb-3">
+      <h2 class="my-5">General usuarios</h2>
+  
+      {% if all_users %}
+      <ul class="list-group mb-3">
+        {% for user in all_users %}
+        <li >
+            <article class="d-flex align-items-stretch justify-content-between">
+                <div class=" flex-fill me-3" >
+                    <p class="my-auto p-3"><b class="gradient">Username: </b>{{user.username}} <br>
+                        <b class="gradient">Nombre y apellido: </b> {{user.name}} {{user.apellido}}</p>
+                </div>
+            </article>
+        </li> 
+        <br>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <span style="color: red">No se ha encontrado el usuario</span>
+  
+      {% endif %}
+    </div>
+  </div>
+
+{%endblock%}

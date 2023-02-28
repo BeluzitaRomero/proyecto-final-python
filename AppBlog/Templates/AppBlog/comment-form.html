@@ -1,0 +1,40 @@
+{% extends 'AppBlog/home.html' %} {% block title %} Crear comentario {%endblock%}
+{% block main_content %}
+<section class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <h2 class="my-5">Cargar un nuevo comentario</h2>
+  
+        {% if comment_form.errors %}
+        <span style="color: red"
+          >Lo datos son incorrectos, por favor, intentelo de nuevo</span
+        >
+        {% endif %}
+  
+        <form
+          class="mx-5 px-3"
+          action="{% url 'comment-form' %}"
+          method="POST"
+        >
+          {% csrf_token %}
+  
+          <div
+            class="d-flex justify-content-center col-lg-6 mb-3 align-items-center"
+          >
+            <table>
+              {{ comment_form.as_table}}
+            </table>
+  
+            <button
+              style="max-height: 3rem"
+              type="submit"
+              class="btn btn-primary mx-3"
+            >
+              Guardar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  {% endblock %}

@@ -1,0 +1,125 @@
+{% extends 'AppBlog/home.html' %} {% block title %} Posts CoderBlog {%endblock%}
+{% block main_content %}
+<section class="container">
+  <div class="row">
+    <div class="col-lg-6">
+      <h2 class="my-5">Cargar un nuevo post</h2>
+
+      {% if post_form.errors %}
+      <span style="color: red"
+        >Lo datos son incorrectos, por favor, intentelo de nuevo</span
+      >
+      {% endif %}
+
+      <form class="mx-5 px-3" action="{% url 'all-post' %}" method="POST">
+        {% csrf_token %}
+
+        <div
+          class="d-flex justify-content-center col-lg-6 mb-3 align-items-center"
+        >
+          <table>
+            {{ post_form.as_table}}
+          </table>
+
+          <button
+            style="max-height: 3rem"
+            type="submit"
+            class="btn btn-primary mx-3"
+          >
+            Compartir
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="row col-lg-12 col-md-12 mb-3">
+    <h2 class="my-5">General posts</h2>
+
+    <div style="width: 60%; margin: auto">
+      {% if all_post %} {% for p in all_post %}
+      <div class="card mb-3" style="max-width: 540px">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img
+              src="{{p.post_img}}"
+              class="img-fluid rounded-start"
+              alt="..."
+            />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title" style="color: black">{{p.username}}</h5>
+              <p class="card-text" style="color: black">
+                {{p.post_description}}
+              </p>
+              <p class="card-text">
+                <small class="text-muted">Last updated 3 mins ago</small>
+              </p>
+              <a
+                style="max-height: 3rem"
+                type="submit"
+                class="btn btn-primary mx-3"
+                href="{% url 'delete-post' p.id %}"
+                >Eliminar</a
+              >
+            </div>
+            <a
+              style="max-height: 3rem"
+              type="submit"
+              class="btn btn-primary mx-3"
+              href="{% url 'edit-post' p.id %}"
+              >Editar</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <ul class="list-group mb-3"> -->
+    <!-- <li>  
+        <article class="d-flex align-items-stretch justify-content-between">
+            <div class="flex-fill me-3">
+              <p class="my-auto p-3">
+                <b class="gradient">Username: </b>{{p.username}} <br />
+                <b class="gradient">Descripcion: </b> {{p.post_description}}
+              </p>
+              <p>{{p.id}}</p>
+            </div>
+            <img
+              src="{{p.post_img}}"
+              alt="{{p.post_description}}"
+              style="width: 10rem"
+              class="img-fluid"
+            />
+          </article>
+          <br />
+          <a
+            style="max-height: 3rem; width: 5rem"
+            type="submit"
+            class="btn btn-primary mx-3"
+            href="{% url 'delete-post' p.id %}"
+            >Eliminar</a
+          >
+          <a
+              style="max-height: 3rem; width: 5rem;"
+              type="submit"
+              class="btn btn-primary mx-3 "
+              href="{% url 'edit-post' p.id %}"
+              >Editar</a
+            >
+        </li>
+        <br /> -->
+    {% endfor %}
+    <!-- </ul> -->
+    {% else %}
+
+    <span style="color: red">No se han encontrado el posts</span>
+
+    {% endif %}
+    <!-- </li> -->
+  </div>
+</div>
+
+{%endblock%}

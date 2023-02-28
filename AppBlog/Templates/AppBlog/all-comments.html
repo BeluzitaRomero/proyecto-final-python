@@ -1,0 +1,29 @@
+{% extends 'AppBlog/home.html' %} {% block title %} Posts CoderBlog {%endblock%}
+{% block main_content %}
+<div class="container">
+    <div class="row col-lg-6 col-md-12 mb-3">
+      <h2 class="my-5">General comentarios</h2>
+  
+      {% if all_comments %}
+      <ul class="list-group mb-3">
+        {% for comment in all_comments %}
+        <li class="">
+            <article class="d-flex align-items-stretch justify-content-between">
+                <div class="flex-fill me-3" >
+                    <p class="my-auto p-3"><b class="gradient">Username: </b>{{comment.username}} <br> <br>
+                        <b class="gradient">Comentario: </b> {{comment.comment}}</p>
+                </div>
+                
+            </article>
+        </li>
+        <br>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <span style="color: red">No se han encontrado comentarios</span>
+  
+      {% endif %}
+    </div>
+  </div>
+
+{%endblock%}

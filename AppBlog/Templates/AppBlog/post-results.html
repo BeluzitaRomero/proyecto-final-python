@@ -1,0 +1,28 @@
+{% extends 'AppBlog/home.html' %} {% block title %} Posts CoderBlog {%endblock%}
+{% block main_content %}
+<div class="container">
+    <div class="row col-lg-6 col-md-12 mb-3">
+      <h2 class="my-5">Busqueda del post: {{username}}</h2>
+  
+      {% if post %}
+      <ul class="list-group mb-3">
+        {% for p in post %}
+        <li >
+            <div class="flex-fil mb-2" >
+                <p class="my-auto"><b class="gradient">Username: </b>{{p.username}} <br>
+                    <b class="gradient">Descripcion: </b> {{p.post_description}}
+                </p>
+            </div>
+          <img class="img-fluid" src={{p.post_img}} alt={{p.post_description}}>
+        </li>
+        {% endfor %}
+      </ul>
+      <br>
+      {% else %}
+      <span style="color: red">No se ha encontrado el post</span>
+  
+      {% endif %}
+    </div>
+  </div>
+
+{%endblock%}

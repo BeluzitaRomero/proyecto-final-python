@@ -1,0 +1,44 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #0e0b16;
+    color: #e7dfdd;
+  }
+
+
+nav, footer {
+    background: rgb(71, 23, 246);
+  background: linear-gradient(
+    90deg,
+    rgba(71, 23, 246, 0.5634628851540616) 11%,
+    rgba(162, 57, 202, 0.6671043417366946) 38%,
+    rgba(14, 11, 22, 0.6671043417366946) 65%
+  );
+  
+}
+
+.gradient{
+background: rgb(71,23,246);
+background: linear-gradient(90deg, rgba(71,23,246,0.9724264705882353) 0%,
+ rgba(162,57,202,0.9023984593837535) 63%,
+  rgba(14,11,22,0.26934523809523814) 100%);
+}
+ 
+li{
+    list-style: none;
+}
+
+.color {
+    color: #e7dfdd;
+}
+
+.container-main {
+  height: 40vh;
+}
+
+
+
