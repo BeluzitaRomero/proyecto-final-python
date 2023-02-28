@@ -25,8 +25,13 @@ urlpatterns =[
 #delete
     path('delete-post/<post_id>', views.delete_post, name='delete-post'),
 #update
-    path('edit-post/<post_id>', views.update_post,name='edit-post')
+    path('edit-post/<post_id>', views.update_post,name='edit-post'),
 
 
-
+#CLASS
+    path('class-inicio/', views.UserList.as_view(), name='class-inicio'),
+    path('class-detail/<pk>', views.UserDetail.as_view(), name='class-detail'),
+    path('class-new/<pk>', views.UsersCreate.as_view(), name='class-new'),
+    path('class-edit/<pk>', views.UsersUpdate.as_view(), name='class-edit'),
+    path('class-delete/<pk>', views.UserDelete.as_view(), name='class-delete'),
 ]

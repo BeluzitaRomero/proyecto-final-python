@@ -2,6 +2,41 @@ from django.shortcuts import render, redirect
 from .forms import PostForm, UserForm, CommentForm
 from .models import Post, User, Comment
 from django.http import HttpResponse
+from django.urls import reverse, reverse_lazy
+
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
+
+# ---------------------------------------------------------------------------- #
+#                            VITAS BASADAS EN CLASES                           #
+# ---------------------------------------------------------------------------- #
+
+class UserList(ListView):
+    model = User
+    template = 'AppBlog/users-list.html'
+
+
+class UserDetail(DetailView):
+    model = User
+    template  = 'AppBlog/user-detail.html'
+
+class UsersCreate(CreateView):
+    model = User
+    template = 'AppBlog/new-user.html'
+    success = reverse_lazy('class-inicio')
+    fields = ['username', 'name', 'apellido', 'email']
+
+class UsersUpdate(UpdateView):
+    model = User
+    template = 'AppBlog/new-user.html'
+    success = reverse_lazy('class-inicio')
+    fields = ['username', 'name', 'apellido', 'email']
+
+class UserDelete(DeleteView):
+    model = User
+    success_url = 'AppBlog/'
 
 
 def home(req):
@@ -207,6 +242,8 @@ def update_post(req, post_id):
         
         #voy al html que me permite editar
         return render(req, 'AppBlog/edit-post.html', context)
+
+
 
 
 
