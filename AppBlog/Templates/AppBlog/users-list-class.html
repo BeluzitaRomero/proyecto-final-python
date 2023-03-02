@@ -1,0 +1,20 @@
+<!-- para vista basada en clases -->
+{% extends 'AppBlog/home.html' %} {% block title %} Posts CoderBlog {%endblock%}
+{% block main_content %}
+<div>
+  <h1>Lista de usuarios</h1>
+  <ul>
+    {% for user in object_list %}
+    <li>
+      <p>Nombre: {{user.name}}</p>
+      <a href="{% url 'class-edit' user.id %}">Editar</a>
+      <br />
+      <a href="{% url 'class-delete' user.id %}">Borrar</a>
+      <br />
+      <a href="{% url 'class-detail' user.id %}">Detalle</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}

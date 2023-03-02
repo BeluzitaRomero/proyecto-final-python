@@ -3,6 +3,12 @@ from .forms import PostForm, UserForm, CommentForm
 from .models import Post, User, Comment
 from django.http import HttpResponse
 from django.urls import reverse, reverse_lazy
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from .forms import MyUserCreationForm, UserEditForm
+
+from django.contrib.auth.models import User as UserAuth
 
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -13,31 +19,35 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 #                            VITAS BASADAS EN CLASES                           #
 # ---------------------------------------------------------------------------- #
 
-class UserList(ListView):
-    model = User
-    template = 'AppBlog/users-list.html'
+# class UserList(ListView):
+#     model = User
+#     template_name = 'AppBlog/users-list-class.html'
 
 
-class UserDetail(DetailView):
-    model = User
-    template  = 'AppBlog/user-detail.html'
+# class UserDetail(DetailView):
+#     model = User
+#     template_name  = 'AppBlog/user-detail.html'
 
-class UsersCreate(CreateView):
-    model = User
-    template = 'AppBlog/new-user.html'
-    success = reverse_lazy('class-inicio')
-    fields = ['username', 'name', 'apellido', 'email']
+# class UsersCreate(CreateView):
+#     model = User
+#     template_name = 'AppBlog/new-user.html'
+#     success_url = reverse_lazy('class-inicio')
+#     fields = ['username', 'name', 'apellido', 'email']
 
-class UsersUpdate(UpdateView):
-    model = User
-    template = 'AppBlog/new-user.html'
-    success = reverse_lazy('class-inicio')
-    fields = ['username', 'name', 'apellido', 'email']
+# class UsersUpdate(UpdateView):
+#     model = User
+#     template_name = 'AppBlog/new-user.html'
+#     success_url = reverse_lazy('class-inicio')
+#     fields = ['username', 'name', 'apellido', 'email']
 
-class UserDelete(DeleteView):
-    model = User
-    success_url = 'AppBlog/'
+# class UserDelete(DeleteView):
+#     model = User
+#     template_name = 'AppBlog/delete-user.html'
+#     success_url = reverse_lazy('class-inicio')
 
+# ---------------------------------------------------------------------------- #
+#                          VISTAS BASADAS EN FUNCIONES                         #
+# ---------------------------------------------------------------------------- #
 
 def home(req):
     return render(req, 'AppBlog/main.html')
@@ -61,6 +71,7 @@ def comments(req):
 
 def get_all_posts(req):
     all_post = Post.objects.all()
+    print(str(req.user))
 
     #FORMS incluido en la vista de todos los post
     if req.method == "POST":
@@ -68,15 +79,19 @@ def get_all_posts(req):
 
         if my_form.is_valid():
             data = my_form.cleaned_data
-            new_post = Post(username=data['username'],
+            new_post = Post(username= req.user,
                             post_description=data['post_description'],
                             post_img=data['post_img'])
 
             new_post.save()
             return redirect('all-post')
+        
+    elif req.user.is_authenticated == False:
+        return render(req, 'AppBlog/all-post.html', {'all_post': all_post,  })
 
+  
     my_form = PostForm()
-    return render(req, 'AppBlog/all-post.html', {'all_post': all_post, 'post_form': my_form})
+    return render(req, 'AppBlog/all-post.html', {'all_post': all_post,'post_form': my_form, 'req': str(req.user)})
 
 
 def get_all_users(req):
@@ -199,7 +214,8 @@ def delete_post(req, post_id):
     all_posts = Post.objects.all()
 
     context = {'all_post': all_posts}
-    return render(req, "AppBlog/all-post.html", context)
+    # return render(req, "AppBlog/main.html", context)
+    return redirect('all-post')
 
 
 # ---------------------------------------------------------------------------- #
@@ -217,7 +233,7 @@ def update_post(req, post_id):
 
            post_to_update.post_img=data['post_img']
            post_to_update.post_description=data['post_description']
-           post_to_update.username = data['username']
+        #    post_to_update.username = data['username']
 
            post_to_update.save()
 
@@ -242,6 +258,85 @@ def update_post(req, post_id):
         
         #voy al html que me permite editar
         return render(req, 'AppBlog/edit-post.html', context)
+
+
+###perfil
+@login_required
+def edit_profile(req):
+    user = UserAuth.objects.get(id = req.user.id)
+
+    if req.method == 'POST':
+        my_form = UserEditForm(req.POST)
+
+        if my_form.is_valid():
+            data = my_form.cleaned_data
+
+            user.username = data['username']
+            user.email = data['email']
+            user.first_name = data['first_name']
+            user.last_name = data['last_name']
+            
+            user.save()
+
+            return redirect('inicio')
+
+    
+    else:
+        my_form = UserEditForm(initial = {
+                                      'username': user.username,
+                                      'email': user.email,
+                                      'first_name': user.first_name,
+                                      'last_name': user.last_name,
+                                       })
+    
+    return render(req, 'AppBlog/edit-profile.html', {'my_form': my_form, 'user': user})
+
+
+
+
+# ---------------------------------------------------------------------------- #
+#                                    UPDATE                                    #
+# ---------------------------------------------------------------------------- #
+def login_request(req):
+    form = AuthenticationForm()
+
+    if req.method == 'POST':
+        form = AuthenticationForm(req, data = req.POST)
+
+        if form.is_valid():
+            user = form.cleaned_data.get('username')
+            passw = form.cleaned_data.get('password')
+
+            user = authenticate(username = user, password = passw)
+
+            if user is not None:
+                login(req, user)
+                return render(req, 'AppBlog/main.html', {'message': f'Bienvenido {user}'})
+
+            else:
+                return render(req, 'AppBlog/login.html', {'message': f'Error: el usaurio no existe', 'form': form})
+        else:
+            return render(req, 'AppBlog/login.html', {'message':f'Error, datos incorrectos', 'form':form})
+    contexto = {'form': form}
+    return render(req, 'AppBlog/login.html', contexto)
+
+
+def register(req):
+    if req.method == 'POST':
+
+        # form = UserCreationForm(req.POST) este es el creado por django con textos
+        #por defecto
+        form = MyUserCreationForm(req.POST)
+
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            form.save()
+            return render(req, 'AppBlog/main.html', {'message': "Usuario creado"})
+
+    else: 
+        form = MyUserCreationForm()
+
+    return render(req, 'AppBlog/register.html', {'form': form})
 
 
 

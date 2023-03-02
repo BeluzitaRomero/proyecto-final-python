@@ -1,9 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class User(models.Model):
     username = models.CharField(max_length=40)
-    name = models.CharField(max_length=40)
-    apellido = models.CharField(max_length=40)
+    first_name = models.CharField(max_length=40)
+    last_name= models.CharField(max_length=40)
     email = models.EmailField()
 
 class Post(models.Model):
@@ -14,3 +15,5 @@ class Post(models.Model):
 class Comment(models.Model):
     username = models.CharField(max_length=40)
     comment = models.CharField(max_length=200)
+
+

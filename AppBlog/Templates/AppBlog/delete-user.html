@@ -1,0 +1,18 @@
+<!-- para vista basada en clases -->
+{% extends 'AppBlog/home.html' %} {% block title %} Posts CoderBlog {%endblock%}
+{% block main_content %}
+<div>
+  <h1>Eliminar usuario</h1>
+  <form action="" method="POST">
+    {% csrf_token %}
+    <p>¿Seguro que quiere eliminar el usuario {{ object }}?</p>
+    <input
+      style="max-height: 3rem"
+      class="btn btn-primary mx-3"
+      type="submit"
+      value="Continuar"
+    />
+  </form>
+</div>
+
+{% endblock %}

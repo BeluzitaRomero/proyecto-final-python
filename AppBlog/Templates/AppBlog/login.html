@@ -1,0 +1,16 @@
+{% extends 'AppBlog/home.html' %} {% block title %} Iniciar sesion {%endblock%}
+{% block main_content %}
+<div>
+  {% if message %}
+  <p style="color: red">{{message}}</p>
+  {% endif %}
+  <form action="" method="POST">
+    {% csrf_token%} {{ form.as_p}}
+
+    <button type="submit">Iniciar sesion</button>
+  </form>
+  <p>
+    ¿No estas registrado? <a href="{% url 'register' %}">Registrate aquí</a>
+  </p>
+</div>
+{% endblock %}

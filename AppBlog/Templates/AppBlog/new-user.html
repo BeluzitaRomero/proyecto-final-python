@@ -1,0 +1,17 @@
+<!-- para vista basada en clases -->
+{% extends 'AppBlog/home.html' %} {% block title %} Posts CoderBlog {%endblock%}
+{% block main_content %}
+<div>
+  <h1>Nuevo usuario</h1>
+  <form action="" method="POST">
+    {% csrf_token %} {{ form.as_p }}
+    <input
+      style="max-height: 3rem"
+      class="btn btn-primary mx-3"
+      type="submit"
+      value="Enviar"
+    />
+  </form>
+</div>
+
+{% endblock %}

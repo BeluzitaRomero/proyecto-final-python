@@ -1,0 +1,17 @@
+{% extends 'AppBlog/home.html' %} {% block title %} Editar perfil {%endblock%}
+{% block main_content %}
+
+<div class="row">
+  <div class="col-lg-12">
+    <h1>Editar perfil</h1>
+    <h3>Nombre de usuario: {{user.username}} - Nombre: {{user.first_name}}</h3>
+    <form action="" method="POST">
+      {% csrf_token %}
+      <table>
+        {{ my_form.as_table }}
+      </table>
+      <input type="submit" value="Editar perfil" />
+    </form>
+  </div>
+</div>
+{% endblock %}

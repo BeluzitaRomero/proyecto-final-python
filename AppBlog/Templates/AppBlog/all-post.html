@@ -3,9 +3,11 @@
 <section class="container">
   <div class="row">
     <div class="col-lg-6">
+      {% if post_form %}
       <h2 class="my-5">Cargar un nuevo post</h2>
-
-      {% if post_form.errors %}
+      {% else %}
+      <h2>Estas viendo posts como invitado</h2>
+      {% endif %} {% if post_form.errors %}
       <span style="color: red"
         >Lo datos son incorrectos, por favor, intentelo de nuevo</span
       >
@@ -17,6 +19,7 @@
         <div
           class="d-flex justify-content-center col-lg-6 mb-3 align-items-center"
         >
+          {% if post_form %}
           <table>
             {{ post_form.as_table}}
           </table>
@@ -28,6 +31,7 @@
           >
             Compartir
           </button>
+          {% endif %}
         </div>
       </form>
     </div>
@@ -58,13 +62,14 @@
               <p class="card-text">
                 <small class="text-muted">Last updated 3 mins ago</small>
               </p>
+              {% if user.is_authenticated and req == p.username %}
               <a
                 style="max-height: 3rem"
                 type="submit"
                 class="btn btn-primary mx-3"
                 href="{% url 'delete-post' p.id %}"
-                >Eliminar</a
-              >
+                >Eliminar
+              </a>
             </div>
             <a
               style="max-height: 3rem"
@@ -73,6 +78,7 @@
               href="{% url 'edit-post' p.id %}"
               >Editar</a
             >
+            {% endif %}
           </div>
         </div>
       </div>

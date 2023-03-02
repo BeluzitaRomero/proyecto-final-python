@@ -1,0 +1,13 @@
+{% extends 'AppBlog/home.html' %} {% block title %} Registro de usuario
+{%endblock%} {% block main_content %}
+<div>
+  {% if message %}
+  <p style="color: red">{{message}}</p>
+  {% endif %}
+  <form action="" method="POST">
+    {% csrf_token%} {{ form.as_p}}
+
+    <button type="submit">Registrate</button>
+  </form>
+</div>
+{% endblock %}

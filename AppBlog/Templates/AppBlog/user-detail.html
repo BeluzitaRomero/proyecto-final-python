@@ -1,0 +1,12 @@
+<!-- para vista basada en clases -->
+{% extends 'AppBlog/home.html' %} {% block title %} Posts CoderBlog {%endblock%}
+{% block main_content %}
+<div>
+  <h1>Detalle del usuario</h1>
+  <p>Nombre: {{user.name}}</p>
+  <p>Apellido: {{user.apellido}}</p>
+  <p>Nombre de usuario: {{user.username}}</p>
+  <a href="{% url 'class-inicio' %}">Regregar a inicio</a>
+</div>
+
+{% endblock %}
